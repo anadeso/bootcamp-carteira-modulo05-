@@ -44,6 +44,7 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/auth").permitAll()
+                .antMatchers( "/usuarios/**").hasRole("ADMIN")
                 .anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().csrf().disable()
@@ -57,7 +58,9 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui", "/swagger-resources/**", "/configuration/security", "/swagger-ui.html", "/webjars/**");
     }
 
-    //    public static void main(String[] args) {
-//        System.out.println(new BCryptPasswordEncoder().encode("671761"));
-//    }
+//      public static void main(String[] args) {
+//        System.out.println(new BCryptPasswordEncoder().encode("33640"));
+//                //rafaela "638875"
+//                //rodrigo 33640);
+//        }
 }

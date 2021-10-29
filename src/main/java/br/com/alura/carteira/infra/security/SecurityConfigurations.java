@@ -61,6 +61,6 @@ public class SecurityConfigurations extends WebSecurityConfigurerAdapter {
 //      public static void main(String[] args) {
 //        System.out.println(new BCryptPasswordEncoder().encode("33640"));
 //                //rafaela "638875"
-//                //rodrigo 33640);
+    //                //rodrigo 33640);
 //        }
 }

@@ -45,7 +45,7 @@ public class TransacaoServiceTest {
     public void deveCadastrarUmaTransacaoService() {
         TransacaoFormDto transacaoFormDto = getTransacaoFormDto();
 
-        TransacaoDto dto = transacaoService.cadastrar(transacaoFormDto);
+        TransacaoDto dto = transacaoService.cadastrar(transacaoFormDto, null);
 
         Mockito.verify(transacaoRepository).save(Mockito.any());
 
@@ -63,7 +63,7 @@ public class TransacaoServiceTest {
                 .thenThrow(EntityNotFoundException.class);
 
         Assertions.assertThrows(IllegalArgumentException.class,
-                () ->  transacaoService.cadastrar(transacaoFormDto));
+                () ->  transacaoService.cadastrar(transacaoFormDto, null));
     }
 
 }

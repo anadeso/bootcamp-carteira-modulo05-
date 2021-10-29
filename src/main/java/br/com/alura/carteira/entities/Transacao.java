@@ -1,10 +1,6 @@
 package br.com.alura.carteira.entities;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
@@ -22,6 +18,7 @@ import java.time.LocalDate;
 @Getter
 @Setter
 @ToString(exclude = { "dataTransacao", "quantidade"})
+@EqualsAndHashCode(of = "id")
 @AllArgsConstructor()
 @NoArgsConstructor
 @Entity
@@ -59,5 +56,9 @@ public class Transacao {
         this.quantidade = quantidade;
         this.dataTransacao = dataTransacao;
         this.tipoTransacao = tipoTransacao;
+    }
+
+    public boolean pertenceAoUsuario(Usuario usuario) {
+        return this.usuario.equals(usuario);
     }
 }

@@ -8,6 +8,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @ToString
+@EqualsAndHashCode(of = "id")
 @AllArgsConstructor()
 @NoArgsConstructor
 @Entity

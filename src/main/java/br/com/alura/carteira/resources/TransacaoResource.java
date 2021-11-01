@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
@@ -29,12 +30,12 @@ public class TransacaoResource {
 
     @GetMapping
     //@AuthenticationPrincipal spring vai injetar o usuario que esta logando usando essa anotacao
-    public Page<TransacaoDto> listar(@PageableDefault(size = 10) Pageable paginacao, @AuthenticationPrincipal Usuario logado) {
+    public Page<TransacaoDto> listar(@PageableDefault(size = 10) Pageable paginacao, @ApiIgnore @AuthenticationPrincipal Usuario logado) {
         return service.listar(paginacao, logado);
     }
 
     @PostMapping
-    public ResponseEntity<TransacaoDto> cadastrar(@RequestBody @Valid TransacaoFormDto transacaoFormDto,  @AuthenticationPrincipal Usuario logado) {
+    public ResponseEntity<TransacaoDto> cadastrar(@RequestBody @Valid TransacaoFormDto transacaoFormDto,@ApiIgnore @AuthenticationPrincipal Usuario logado) {
         TransacaoDto transacaoDto = service.cadastrar(transacaoFormDto, logado);
 
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
@@ -43,20 +44,20 @@ public class TransacaoResource {
     }
 
     @PutMapping
-    public ResponseEntity<TransacaoDto> atualizar(@RequestBody @Valid AtualizacaoTransacaoFormDto dto, @AuthenticationPrincipal Usuario logado) {
+    public ResponseEntity<TransacaoDto> atualizar(@RequestBody @Valid AtualizacaoTransacaoFormDto dto,@ApiIgnore @AuthenticationPrincipal Usuario logado) {
         TransacaoDto atualizada = service.atualizar(dto, logado);
 
         return ResponseEntity.ok(atualizada);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<TransacaoDto> delete(@PathVariable @NotNull Long id, @AuthenticationPrincipal Usuario logado) {
+    public ResponseEntity<TransacaoDto> delete(@PathVariable @NotNull Long id,@ApiIgnore @AuthenticationPrincipal Usuario logado) {
         service.delete(id, logado);
         return ResponseEntity.noContent().build();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<TransacaoDetalhadaDto> buscaPorId(@PathVariable @NotNull Long id, @AuthenticationPrincipal Usuario logado) {
+    public ResponseEntity<TransacaoDetalhadaDto> buscaPorId(@PathVariable @NotNull Long id,@ApiIgnore @AuthenticationPrincipal Usuario logado) {
         TransacaoDetalhadaDto dto = service.buscaPoriD(id, logado);
         return ResponseEntity.ok(dto);
     }

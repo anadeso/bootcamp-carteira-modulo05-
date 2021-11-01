@@ -7,6 +7,7 @@ import br.com.alura.carteira.entities.Transacao;
 import br.com.alura.carteira.entities.Usuario;
 import br.com.alura.carteira.repositories.TransacaoRepository;
 import br.com.alura.carteira.repositories.UsuarioRepository;
+import br.com.alura.carteira.services.CalculadoraImpostoService;
 import br.com.alura.carteira.services.TransacaoService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -39,6 +40,9 @@ public class TransacaoServiceTest {
 
     @Mock
     private ModelMapper modelMapper;
+
+    @Mock
+    private CalculadoraImpostoService calculadoraImpostoService;
 
     private Usuario logado;
 
@@ -83,7 +87,8 @@ public class TransacaoServiceTest {
                         transacao.getTicker(),
                         transacao.getPreco(),
                         transacao.getQuantidade(),
-                        transacao.getTipoTransacao()));
+                        transacao.getTipoTransacao(),
+                        BigDecimal.ZERO));
 
         TransacaoDto dto = transacaoService.cadastrar(transacaoFormDto, logado);
 

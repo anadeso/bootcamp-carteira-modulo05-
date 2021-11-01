@@ -41,6 +41,8 @@ public class Transacao {
     @ManyToOne
     private Usuario usuario;
 
+    private BigDecimal imposto;
+
     public Transacao(String ticker, BigDecimal preco, int quantidade, LocalDate dataTransacao, TipoTransacao tipoTransacao, Usuario usuario) {
         this.ticker = ticker;
         this.preco = preco;

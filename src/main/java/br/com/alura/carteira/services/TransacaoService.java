@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.math.BigDecimal;
 
 @Service
 public class TransacaoService {
@@ -30,10 +31,27 @@ public class TransacaoService {
     @Autowired
     private ModelMapper modelMapper;
 
+    @Autowired
+    private CalculadoraImpostoService calculadoraImpostoService;
+
     @Transactional(readOnly = true)
     public Page<TransacaoDto> listar(Pageable paginacao, Usuario usuario) {
-        Page<Transacao> transacoes = transacaoRepository.findAllByUsuario(paginacao, usuario);
-        return transacoes.map(t -> modelMapper.map(t, TransacaoDto.class));
+        return transacaoRepository
+                .findAllByUsuario(paginacao, usuario)
+                .map(t -> modelMapper.map(t, TransacaoDto.class));
+//        List<TransacaoDto> transacaoDtoList = new ArrayList<>();
+//
+//        transacoes.forEach(transacao -> {
+//            BigDecimal imposto = calculadoraImpostoService.calcular(transacao);
+//            TransacaoDto dto = modelMapper.map(transacao, TransacaoDto.class);
+//            dto.setImposto(imposto);
+//            transacaoDtoList.add(dto);
+//        });
+//
+//        return new PageImpl<TransacaoDto>(
+//                transacaoDtoList,
+//                transacoes.getPageable(),
+//                transacoes.getTotalElements());
     }
 
     @Transactional
@@ -50,11 +68,12 @@ public class TransacaoService {
             Transacao transacao = modelMapper.map(transacaoFormDto, Transacao.class);
             transacao.setId(null);
             transacao.setUsuario(usuario);
+            BigDecimal imposto = calculadoraImpostoService.calcular(transacao);
+            transacao.setImposto(imposto);
 
             transacaoRepository.save(transacao);
 
             return modelMapper.map(transacao, TransacaoDto.class);
-
         } catch (EntityNotFoundException e) {
             throw new IllegalArgumentException("Usuario inexistente!");
         }

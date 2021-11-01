@@ -8,6 +8,10 @@ import lombok.Setter;
 
 import java.math.BigDecimal;
 
+/**
+ * Classe TransacaoDto deveolvemos ou retornornamos na API
+ *
+ */
 @Getter
 @Setter
 @AllArgsConstructor
@@ -19,4 +23,5 @@ public class TransacaoDto {
     private BigDecimal preco;
     private Integer quantidade;
     private TipoTransacao tipoTransacao;
+    private BigDecimal imposto;
 }

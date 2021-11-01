@@ -30,6 +30,12 @@ public class TratamentoDeErros {
                 .collect(Collectors.toList());
     }
 
+    @ExceptionHandler(RegraDeNegocioException.class)
+    @ResponseStatus(code = HttpStatus.BAD_REQUEST)
+    public String tratarErrorRegraDeNegocioException(RegraDeNegocioException ex) {
+        return ex.getMessage();
+    }
+
     @ExceptionHandler(Exception.class)
     @ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR)
     public Erro500Dto tratarError500(Exception ex, HttpServletRequest req) {
@@ -50,4 +56,6 @@ public class TratamentoDeErros {
     public String tratarError403(AccessDeniedException e) {
         return e.getMessage();
     }
+
+
 }

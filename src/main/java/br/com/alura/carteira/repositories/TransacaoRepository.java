@@ -25,4 +25,5 @@ public interface TransacaoRepository extends JpaRepository<Transacao, Long> {
 
     Page<Transacao> findAllByUsuario(Pageable paginacao, Usuario usuario);
 
+    boolean existsByUsuarioId(Long id);
 }

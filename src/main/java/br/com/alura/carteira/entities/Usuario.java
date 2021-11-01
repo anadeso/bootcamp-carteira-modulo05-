@@ -32,12 +32,14 @@ public class Usuario implements UserDetails {
         inverseJoinColumns = @JoinColumn(name = "perfil_id"))
     private List<Perfil> perfis = new ArrayList<>();
 
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.REMOVE)
+    private List<Transacao> transacoes = new ArrayList<>();
+
     public Usuario(String nome, String login, String senha) {
         this.nome = nome;
         this.login = login;
         this.senha = senha;
     }
-
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

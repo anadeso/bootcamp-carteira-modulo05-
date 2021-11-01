@@ -4,8 +4,11 @@ import br.com.alura.carteira.dto.UsuarioDto;
 import br.com.alura.carteira.dto.UsuarioFormDto;
 import br.com.alura.carteira.entities.Perfil;
 import br.com.alura.carteira.entities.Usuario;
+import br.com.alura.carteira.infra.RegraDeNegocioException;
 import br.com.alura.carteira.repositories.PerfilRepository;
+import br.com.alura.carteira.repositories.TransacaoRepository;
 import br.com.alura.carteira.repositories.UsuarioRepository;
+import br.com.alura.carteira.resources.TransacaoResource;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,6 +30,9 @@ public class UsuarioService {
 
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private TransacaoRepository transacaoRepository;
 
     @Autowired
     private ModelMapper modelMapper;
@@ -51,5 +57,14 @@ public class UsuarioService {
 
         usuarioRepository.save(usuario);
         return modelMapper.map(usuario, UsuarioDto.class);
+    }
+
+    public void remover(Long id) {
+        boolean temTransacaoCdastrada = transacaoRepository.existsByUsuarioId(id);
+
+        if (temTransacaoCdastrada) {
+            throw new RegraDeNegocioException("Usuario nao pode ser excluido pois tem transacao cadastrada");
+        }
+        usuarioRepository.deleteById(id);
     }
 }

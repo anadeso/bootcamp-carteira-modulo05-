@@ -23,7 +23,7 @@ public class CalculadoraImpostoServiceTest {
                 quantidade,
                 LocalDate.now(),
                 tipo,
-                new Usuario(1L, "Rafaela", "rafaela@gmail.com", "12344", null)
+                new Usuario("Rafaela", "rafaela@gmail.com", "12344")
         );
     }
 
